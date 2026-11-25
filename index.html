@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WIREFRAME v1.1 — Sembilanpuluh Interior</title>
+
+  <!-- Google Fonts: Inter (Tipografi UI) & JetBrains Mono (Spesifikasi & Label Teknis) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Arial', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          colors: {
+            wire: {
+              bg: '#FAFAFA',
+              card: '#FFFFFF',
+              surface: '#F4F4F5',
+              border: '#D4D4D8',
+              dashed: '#A1A1AA',
+              ink: '#18181B',
+              dark: '#27272A',
+              muted: '#52525B',
+              subtle: '#71717A'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom CSS untuk Estetika Architectural Blueprint & Reflow Responsif -->
+  <style>
+    /* Latar belakang kanvas #FAFAFA dengan garis grid blueprint halus */
+    body {
+      background-color: #FAFAFA;
+      background-image:
+        linear-gradient(to right, rgba(24, 24, 27, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(24, 24, 27, 0.04) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* Utilitas garis batas solid (#D4D4D8) dan putus-putus (#A1A1AA) */
+    .wf-solid {
+      border: 1.5px solid #D4D4D8;
+    }
+    .wf-solid-ink {
+      border: 1.5px solid #18181B;
+    }
+    .wf-dashed {
+      border: 1.5px dashed #A1A1AA;
+    }
+    .wf-border-b {
+      border-bottom: 1.5px solid #D4D4D8;
+    }
+    .wf-border-t {
+      border-top: 1.5px solid #D4D4D8;
+    }
+    .wf-border-r {
+      border-right: 1.5px solid #D4D4D8;
+    }
+
+    /* Transisi halus saat berpindah ukuran viewport */
+    #viewport-frame {
+      transition: max-width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Tata Letak Viewport: Desktop (1389px) */
+    #viewport-frame[data-viewport="desktop"] .wf-desktop-nav {
+      display: flex;
+    }
+    #viewport-frame[data-viewport="desktop"] .wf-desktop-cta {
+      display: inline-flex;
+    }
+    #viewport-frame[data-viewport="desktop"] .wf-main-split {
+      grid-template-columns: 48% 1fr;
+    }
+    #viewport-frame[data-viewport="desktop"] .wf-radio-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    #viewport-frame[data-viewport="desktop"] .wf-prefooter-flex {
+      flex-direction: row;
+      text-align: left;
+    }
+    #viewport-frame[data-viewport="desktop"] .wf-footer-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    #viewport-frame[data-viewport="desktop"] .wf-bottom-bar {
+      flex-direction: row;
+    }
+    #viewport-frame[data-viewport="desktop"] .wf-grid-overlay {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    /* Tata Letak Viewport: Tablet (768px) */
+    #viewport-frame[data-viewport="tablet"] .wf-desktop-nav {
+      display: none;
+    }
+    #viewport-frame[data-viewport="tablet"] .wf-desktop-cta {
+      display: inline-flex;
+    }
+    #viewport-frame[data-viewport="tablet"] .wf-main-split {
+      grid-template-columns: 1fr;
+    }
+    #viewport-frame[data-viewport="tablet"] .wf-radio-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    #viewport-frame[data-viewport="tablet"] .wf-prefooter-flex {
+      flex-direction: column;
+      text-align: center;
+    }
+    #viewport-frame[data-viewport="tablet"] .wf-footer-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    #viewport-frame[data-viewport="tablet"] .wf-bottom-bar {
+      flex-direction: column;
+      text-align: center;
+    }
+    #viewport-frame[data-viewport="tablet"] .wf-grid-overlay {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+
+    /* Tata Letak Viewport: Mobile (390px) */
+    #viewport-frame[data-viewport="mobile"] .wf-desktop-nav {
+      display: none;
+    }
+    #viewport-frame[data-viewport="mobile"] .wf-desktop-cta {
+      display: none;
+    }
+    #viewport-frame[data-viewport="mobile"] .wf-main-split {
+      grid-template-columns: 1fr;
+    }
+    #viewport-frame[data-viewport="mobile"] .wf-radio-grid {
+      grid-template-columns: 1fr;
+    }
+    #viewport-frame[data-viewport="mobile"] .wf-prefooter-flex {
+      flex-direction: column;
+      text-align: center;
+    }
+    #viewport-frame[data-viewport="mobile"] .wf-footer-grid {
+      grid-template-columns: 1fr;
+    }
+    #viewport-frame[data-viewport="mobile"] .wf-bottom-bar {
+      flex-direction: column;
+      text-align: center;
+    }
+    #viewport-frame[data-viewport="mobile"] .wf-grid-overlay {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    /* Visibilitas Lencana Anotasi UX [01]–[07] */
+    body.hide-annotations .ux-callout {
+      display: none !important;
+    }
+  </style>
+</head>
+
+<body class="font-sans antialiased text-wire-ink selection:bg-wire-ink selection:text-white">
+
+  <!-- =======================================================================
+       TOP WIREFRAME CONTROL BAR (#18181B, Sticky di Atas)
+       ======================================================================= -->
+  <div id="wireframe-control-bar" class="sticky top-0 z-50 w-full text-white border-b shadow-sm bg-wire-ink border-zinc-700">
+    <div class="max-w-[1440px] mx-auto px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3">
+
+      <!-- Kiri: Label Dokumen Wireframe -->
+      <div class="flex items-center gap-2.5">
+        <span class="inline-block w-2.5 h-2.5 bg-white" aria-hidden="true"></span>
+        <span class="font-mono text-xs sm:text-[13px] font-bold tracking-wider uppercase">
+          WIREFRAME v1.1 — SEMBILANPULUH INTERIOR
+        </span>
+      </div>
+
+      <!-- Tengah: Pengalih Viewport Responsif (Desktop 1389px | Tablet 768px | Mobile 390px) -->
+      <div class="flex items-center p-1 border rounded bg-wire-dark border-zinc-600" role="group" aria-label="Pengalih Viewport Responsif">
+        <button type="button" data-vp="desktop" class="vp-btn px-2.5 py-1 rounded font-mono text-[11px] font-semibold bg-white text-wire-ink transition-colors">
+          Desktop (1389px)
+        </button>
+        <button type="button" data-vp="tablet" class="vp-btn px-2.5 py-1 rounded font-mono text-[11px] font-medium text-zinc-300 hover:text-white transition-colors">
+          Tablet (768px)
+        </button>
+        <button type="button" data-vp="mobile" class="vp-btn px-2.5 py-1 rounded font-mono text-[11px] font-medium text-zinc-300 hover:text-white transition-colors">
+          Mobile (390px)
+        </button>
+      </div>
+
+      <!-- Kanan: Tombol Toggle Grid 12-Kolom & Anotasi UX [01]–[07] -->
+      <div class="flex items-center gap-2">
+        <button type="button" id="toggle-grid-btn" aria-pressed="false" class="px-3 py-1.5 rounded border border-zinc-500 bg-wire-dark hover:bg-zinc-700 font-mono text-[11px] font-semibold text-zinc-200 flex items-center gap-1.5 transition-colors">
+          <span class="inline-block w-2 h-2 border border-current" aria-hidden="true"></span>
+          <span>Grid 12-Kolom</span>
+        </button>
+
+        <button type="button" id="toggle-ux-btn" aria-pressed="true" class="px-3 py-1.5 rounded border border-white bg-white text-wire-ink font-mono text-[11px] font-bold flex items-center gap-1.5 transition-colors">
+          <span class="inline-block w-2 h-2 bg-wire-ink" aria-hidden="true"></span>
+          <span>Anotasi UX [01]–[07]</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Panel Ringkasan Struktur Anotasi UX (Dapat Dibuka/Tutup) -->
+    <div id="ux-notes-drawer" class="border-t bg-wire-dark border-zinc-700 text-zinc-200">
+      <div class="max-w-[1440px] mx-auto px-3 sm:px-6 py-2.5">
+        <div class="flex items-center justify-between gap-2 mb-2">
+          <span class="font-mono text-[11px] font-bold uppercase tracking-wider text-white">
+            SPESIFIKASI STRUKTUR WIREFRAME [01] – [07]
+          </span>
+          <button type="button" id="collapse-ux-notes" class="font-mono text-[11px] text-zinc-300 hover:text-white underline">
+            Tutup Ringkasan
+          </button>
+        </div>
+        <div id="ux-notes-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 font-mono text-[11px] leading-snug">
+          <div class="p-2 border rounded bg-zinc-800/90 border-zinc-700">
+            <strong class="text-white">[01] Sticky Header:</strong> Kotak logo silang, 5 menu navigasi, tombol CTA header &amp; drawer mobile.
+          </div>
+          <div class="p-2 border rounded bg-zinc-800/90 border-zinc-700">
+            <strong class="text-white">[02] Intro Banner:</strong> Area pengantar penuh (#F4F4F5) dengan batas putus-putus untuk judul &amp; subjudul halaman.
+          </div>
+          <div class="p-2 border rounded bg-zinc-800/90 border-zinc-700">
+            <strong class="text-white">[03] Lokasi &amp; Kontak (48%):</strong> Tab Lokasi 1–3, placeholder peta 600x450, serta blok placeholder email &amp; telepon.
+          </div>
+          <div class="p-2 border rounded bg-zinc-800/90 border-zinc-700">
+            <strong class="text-white">[04] Formulir Konsultasi (52%):</strong> Input identitas, textarea kebutuhan &amp; 5 grup pilihan radio grid 2 kolom.
+          </div>
+          <div class="p-2 border rounded bg-zinc-800/90 border-zinc-700">
+            <strong class="text-white">[05] Pre-Footer CTA:</strong> Blok kontras gelap (#27272A) berisi placeholder judul ajakan &amp; tombol CTA.
+          </div>
+          <div class="p-2 border rounded bg-zinc-800/90 border-zinc-700">
+            <strong class="text-white">[06] Footer 4-Kolom:</strong> Placeholder profil, lokasi cabang, kontak, sosial media &amp; baris hak cipta.
+          </div>
+          <div class="p-2 border rounded bg-zinc-800/90 border-zinc-700 sm:col-span-2">
+            <strong class="text-white">[07] Floating Widgets:</strong> Tombol kapsul Widget Chat WA dengan popup pratinjau serta tombol gulir Ke Atas.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       KANVAS UTAMA WIREFRAME (MAX WIDTH 1389px)
+       ======================================================================= -->
+  <div class="px-2 py-6 sm:py-10 sm:px-6">
+    <!-- Bar Informasi Dimensi Kanvas -->
+    <div id="frame-dimension-bar" class="max-w-[1389px] mx-auto mb-2 flex items-center justify-between font-mono text-[11px] text-wire-muted px-1">
+      <span>KANVAS_AKTIF: <strong id="current-vp-label" class="text-wire-ink">DESKTOP (max-w: 1389px)</strong></span>
+      <span>LOW-FIDELITY ARCHITECTURAL WIREFRAME</span>
+    </div>
+
+    <!-- Container Utama Halaman -->
+    <div id="viewport-frame" data-viewport="desktop" class="relative max-w-[1389px] mx-auto bg-wire-card wf-solid shadow-xs overflow-x-clip">
+
+      <!-- Overlay Grid 12-Kolom Transparan -->
+      <div id="grid-overlay-container" class="absolute inset-0 z-30 hidden px-4 pointer-events-none sm:px-8">
+        <div class="grid h-full grid-cols-12 gap-3 wf-grid-overlay sm:gap-5">
+          <div class="bg-zinc-900/5 border-x border-dashed border-zinc-400/70 flex justify-center pt-2 font-mono text-[10px] text-zinc-500">01</div>
+          <div class="bg-zinc-900/5 border-x border-dashed border-zinc-400/70 flex justify-center pt-2 font-mono text-[10px] text-zinc-500">02</div>
+          <div class="bg-zinc-900/5 border-x border-dashed border-zinc-400/70 flex justify-center pt-2 font-mono text-[10px] text-zinc-500">03</div>
+          <div class="bg-zinc-900/5 border-x border-dashed border-zinc-400/70 flex justify-center pt-2 font-mono text-[10px] text-zinc-500">04</div>
+          <div class="bg-zinc-900/5 border-x border-dashed border-zinc-400/70 flex justify-center pt-2 font-mono text-[10px] text-zinc-500">05</div>
+          <div class="bg-zinc-900/5 border-x border-dashed border-zinc-400/70 flex justify-center pt-2 font-mono text-[10px] text-zinc-500">06</div>
+          <div class="bg-zinc-900/5 border-x border-dashed border-zinc-400/70 flex justify-center pt-2 font-mono text-[10px] text-zinc-500">07</div>
+          <div class="bg-zinc-900/5 border-x border-dashed border-zinc-400/70 flex justify-center pt-2 font-mono text-[10px] text-zinc-500">08</div>
+          <div class="bg-zinc-900/5 border-x border-dashed border-zinc-400/70 flex justify-center pt-2 font-mono text-[10px] text-zinc-500">09</div>
+          <div class="bg-zinc-900/5 border-x border-dashed border-zinc-400/70 flex justify-center pt-2 font-mono text-[10px] text-zinc-500">10</div>
+          <div class="bg-zinc-900/5 border-x border-dashed border-zinc-400/70 flex justify-center pt-2 font-mono text-[10px] text-zinc-500">11</div>
+          <div class="bg-zinc-900/5 border-x border-dashed border-zinc-400/70 flex justify-center pt-2 font-mono text-[10px] text-zinc-500">12</div>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           [01] STICKY HEADER
+           =================================================================== -->
+      <header id="wf-top" class="relative px-4 py-4 bg-wire-card wf-border-b sm:px-8">
+        <div class="flex items-center justify-between mb-3 pb-1.5 border-b border-dashed border-wire-dashed font-mono text-[10px] text-wire-subtle">
+          <span>[01] STICKY_HEADER // MAX-W: 1389px</span>
+          <span class="ux-callout inline-flex items-center px-2 py-0.5 bg-wire-ink text-white font-bold">
+            [01] HEADER &amp; NAVIGASI
+          </span>
+        </div>
+
+        <div class="flex items-center justify-between gap-4">
+          <!-- Kiri: Kotak Logo Wireframe dengan Garis Silang Arsitektural + Teks -->
+          <a href="#wf-top" class="flex items-center gap-3">
+            <div class="relative flex items-center justify-center w-11 h-11 wf-solid bg-wire-surface shrink-0">
+              <svg class="w-full h-full text-wire-dashed" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+                <line x1="0" y1="0" x2="44" y2="44" stroke="currentColor" stroke-width="1.2" />
+                <line x1="44" y1="0" x2="0" y2="44" stroke="currentColor" stroke-width="1.2" />
+                <rect x="13" y="14" width="18" height="16" fill="#FFFFFF" stroke="#A1A1AA" stroke-width="1" />
+              </svg>
+              <span class="absolute font-mono text-[9px] font-bold text-wire-ink">LOGO</span>
+            </div>
+            <div class="wf-dashed px-2.5 py-1 bg-wire-card">
+              <span class="block font-mono text-[10px] text-wire-subtle">[PLACEHOLDER LOGO]</span>
+              <span class="block text-xs font-bold tracking-wide uppercase sm:text-sm text-wire-ink">
+                SEMBILANPULUH INTERIOR
+              </span>
+            </div>
+          </a>
+
+          <!-- Tengah: Tautan Navigasi Wireframe ("Menu 1" - "Menu 5") -->
+          <nav class="items-center gap-5 wf-desktop-nav xl:gap-7" aria-label="Navigasi Utama Wireframe">
+            <button type="button" data-menu-name="Menu 1" class="wf-nav-link font-mono text-xs font-semibold text-wire-ink hover:bg-wire-surface px-2.5 py-1.5 rounded border border-transparent hover:border-wire-border transition-colors">
+              Menu 1
+            </button>
+            <button type="button" data-menu-name="Menu 2" class="wf-nav-link font-mono text-xs font-semibold text-wire-ink hover:bg-wire-surface px-2.5 py-1.5 rounded border border-transparent hover:border-wire-border transition-colors">
+              Menu 2
+            </button>
+            <button type="button" data-menu-name="Menu 3" class="wf-nav-link font-mono text-xs font-semibold text-wire-ink hover:bg-wire-surface px-2.5 py-1.5 rounded border border-transparent hover:border-wire-border transition-colors">
+              Menu 3
+            </button>
+            <button type="button" data-menu-name="Menu 4" class="wf-nav-link font-mono text-xs font-semibold text-wire-ink hover:bg-wire-surface px-2.5 py-1.5 rounded border border-transparent hover:border-wire-border transition-colors">
+              Menu 4
+            </button>
+            <button type="button" data-menu-name="Menu 5" class="wf-nav-link font-mono text-xs font-semibold text-wire-ink hover:bg-wire-surface px-2.5 py-1.5 rounded border border-transparent hover:border-wire-border transition-colors">
+              Menu 5
+            </button>
+          </nav>
+
+          <!-- Kanan: Tombol Outlined Wireframe "TOMBOL CTA HEADER" + Tombol Menu Hamburger -->
+          <div class="flex items-center gap-2.5">
+            <a href="#wf-form-section" class="items-center justify-center px-4 py-2 font-mono text-xs font-bold tracking-wider uppercase transition-colors wf-desktop-cta wf-solid-ink bg-wire-card hover:bg-wire-ink hover:text-white">
+              TOMBOL CTA HEADER
+            </a>
+
+            <button type="button" id="wf-mobile-drawer-open" class="inline-flex items-center justify-center gap-1.5 px-3 py-2 wf-solid bg-wire-surface hover:bg-wire-ink hover:text-white font-mono text-xs font-bold transition-colors" aria-label="Buka drawer navigasi mobile">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="square" d="M3 6h18M3 12h18M3 18h18" />
+              </svg>
+              <span class="text-[11px]">MENU</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Bar Umpan Balik Klik Menu Navigasi -->
+        <div id="wf-nav-feedback" class="flex items-center justify-between hidden px-3 py-2 mt-3 font-mono text-xs wf-dashed bg-wire-surface">
+          <span id="wf-nav-feedback-text">Halaman untuk tautan menu akan tampil di sini.</span>
+          <button type="button" id="wf-nav-feedback-close" class="font-bold underline">Tutup</button>
+        </div>
+      </header>
+
+      <!-- ===================================================================
+           DRAWER NAVIGASI MOBILE (SLIDE-OUT)
+           =================================================================== -->
+      <div id="wf-drawer-backdrop" class="fixed inset-0 z-50 hidden bg-black/40"></div>
+      <aside id="wf-mobile-drawer" class="fixed inset-y-0 right-0 z-50 w-80 max-w-[90vw] bg-wire-card border-l-[1.5px] border-wire-border transform translate-x-full transition-transform duration-300 flex flex-col justify-between p-5" aria-label="Drawer Navigasi Mobile">
+        <div>
+          <div class="flex items-center justify-between pb-3 wf-border-b">
+            <div>
+              <span class="block font-mono text-[10px] text-wire-subtle">MOBILE_DRAWER</span>
+              <span class="font-mono text-xs font-bold uppercase text-wire-ink">NAVIGASI MOBILE</span>
+            </div>
+            <button type="button" id="wf-mobile-drawer-close" class="px-2.5 py-1 wf-solid bg-wire-surface hover:bg-wire-ink hover:text-white font-mono text-xs font-bold">
+              [X] TUTUP
+            </button>
+          </div>
+
+          <!-- Placeholder Kolom Pencarian -->
+          <div class="mt-4">
+            <label for="wf-drawer-search" class="block font-mono text-[10px] font-bold uppercase text-wire-muted mb-1">
+              KOLOM PENCARIAN
+            </label>
+            <input type="text" id="wf-drawer-search" placeholder="Input pencarian akan tampil di sini" class="w-full px-3 py-2 font-mono text-xs wf-solid bg-wire-surface focus:outline-none focus:bg-wire-card" />
+          </div>
+
+          <!-- Daftar Menu Wireframe -->
+          <ul class="mt-5 font-mono text-xs divide-y divide-zinc-200 wf-solid bg-wire-card">
+            <li><button type="button" class="wf-drawer-item w-full text-left px-3.5 py-3 hover:bg-wire-surface flex justify-between"><span>Menu 1</span><span>-&gt;</span></button></li>
+            <li><button type="button" class="wf-drawer-item w-full text-left px-3.5 py-3 hover:bg-wire-surface flex justify-between"><span>Menu 2</span><span>-&gt;</span></button></li>
+            <li><button type="button" class="wf-drawer-item w-full text-left px-3.5 py-3 hover:bg-wire-surface flex justify-between"><span>Menu 3</span><span>-&gt;</span></button></li>
+            <li><button type="button" class="wf-drawer-item w-full text-left px-3.5 py-3 hover:bg-wire-surface flex justify-between"><span>Menu 4</span><span>-&gt;</span></button></li>
+            <li><button type="button" class="wf-drawer-item w-full text-left px-3.5 py-3 hover:bg-wire-surface flex justify-between"><span>Menu 5</span><span>-&gt;</span></button></li>
+            <li><a href="#wf-form-section" class="wf-drawer-item block px-3.5 py-3 bg-wire-surface font-bold flex justify-between"><span>TOMBOL CTA HEADER</span><span>●</span></a></li>
+          </ul>
+        </div>
+
+        <div class="pt-4 wf-border-t font-mono text-[10px] text-wire-subtle">
+          Keterangan footer drawer mobile akan tampil di sini.
+        </div>
+      </aside>
+
+      <!-- ===================================================================
+           [02] INTRO BANNER (Full-width #F4F4F5 dengan border putus-putus)
+           =================================================================== -->
+      <section class="relative w-full px-4 py-12 bg-wire-surface wf-border-b sm:px-8 sm:py-16">
+        <div class="max-w-4xl p-6 mx-auto text-center wf-dashed bg-wire-card/80 sm:p-10">
+          <div class="flex flex-wrap items-center justify-center gap-2 mb-3">
+            <span class="font-mono text-[10px] text-wire-subtle">[02] INTRO_BANNER // FULL-WIDTH #F4F4F5</span>
+            <span class="ux-callout inline-flex items-center px-2 py-0.5 bg-wire-ink text-white font-mono text-[10px] font-bold">
+              [02] BANNER JUDUL HALAMAN
+            </span>
+          </div>
+
+          <h1 class="text-2xl font-bold tracking-tight uppercase sm:text-3xl lg:text-4xl text-wire-ink">
+            JUDUL HALAMAN (KONSULTASI)
+          </h1>
+
+          <p class="max-w-2xl mx-auto mt-4 text-sm leading-relaxed sm:text-base text-wire-muted">
+            Deskripsi pengantar singkat mengenai layanan konsultasi interior akan tampil di sini.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           [03] & [04] KONTEN UTAMA 2 KOLOM ASIMETRIS (48% Kiri / 52% Kanan)
+           =================================================================== -->
+      <section class="px-4 py-12 sm:px-8 sm:py-16 bg-wire-card">
+        <div class="mb-6 pb-2 border-b border-dashed border-wire-dashed flex flex-wrap items-center justify-between gap-2 font-mono text-[10px] text-wire-subtle">
+          <span>[03] &amp; [04] LAYOUT_2_KOLOM // DESKTOP: 48% KIRI &amp; 52% KANAN | TABLET &amp; MOBILE: 1 KOLOM</span>
+          <span>WIREFRAME_GRID</span>
+        </div>
+
+        <div class="grid items-start gap-8 wf-main-split lg:gap-10">
+
+          <!-- ===============================================================
+               KOLOM KIRI [03]: LOKASI STUDIO & INFORMASI KONTAK
+               =============================================================== -->
+          <div class="space-y-6">
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-mono text-[11px] font-bold uppercase text-wire-ink">
+                KOLOM KIRI — LOKASI STUDIO &amp; KONTAK
+              </span>
+              <span class="ux-callout inline-flex items-center px-2 py-0.5 bg-wire-ink text-white font-mono text-[10px] font-bold">
+                [03] PETA &amp; INFO KONTAK
+              </span>
+            </div>
+
+            <!-- Kartu Tab Lokasi Interaktif + Placeholder Peta 600x450 -->
+            <div class="wf-solid bg-wire-card">
+              <!-- Tab Interaktif: Lokasi 1, Lokasi 2, Lokasi 3 -->
+              <div class="grid grid-cols-3 wf-border-b bg-wire-surface" role="tablist" aria-label="Tab Lokasi Studio">
+                <button type="button" role="tab" aria-selected="true" data-loc="1" class="px-2 py-3 font-mono text-xs font-bold text-white transition-colors wf-loc-tab bg-wire-ink wf-border-r">
+                  Lokasi 1
+                </button>
+                <button type="button" role="tab" aria-selected="false" data-loc="2" class="px-2 py-3 font-mono text-xs font-semibold transition-colors wf-loc-tab text-wire-ink hover:bg-zinc-200 wf-border-r">
+                  Lokasi 2
+                </button>
+                <button type="button" role="tab" aria-selected="false" data-loc="3" class="px-2 py-3 font-mono text-xs font-semibold transition-colors wf-loc-tab text-wire-ink hover:bg-zinc-200">
+                  Lokasi 3
+                </button>
+              </div>
+
+              <!-- Kotak Placeholder Peta (Rasio 600x450 / 4:3 dengan garis diagonal silang) -->
+              <div class="relative aspect-[4/3] w-full bg-wire-surface wf-border-b overflow-hidden flex items-center justify-center p-4">
+                <svg class="absolute inset-0 w-full h-full text-wire-dashed/70" viewBox="0 0 600 450" preserveAspectRatio="none" aria-hidden="true">
+                  <line x1="0" y1="0" x2="600" y2="450" stroke="currentColor" stroke-width="1.5" />
+                  <line x1="600" y1="0" x2="0" y2="450" stroke="currentColor" stroke-width="1.5" />
+                </svg>
+
+                <!-- Box Keterangan Tengah Peta -->
+                <div class="relative z-10 w-full max-w-sm p-4 text-center bg-wire-card wf-dashed sm:p-5 shadow-2xs">
+                  <!-- Ikon Pin Peta -->
+                  <div class="inline-flex items-center justify-center w-9 h-9 wf-solid bg-wire-surface text-wire-ink mb-2.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="square" d="M12 21s-6-5.686-6-10a6 6 0 1112 0c0 4.314-6 10-6 10z" />
+                      <circle cx="12" cy="11" r="2" />
+                    </svg>
+                  </div>
+
+                  <p id="wf-map-title" class="text-xs font-semibold leading-snug sm:text-sm text-wire-ink">
+                    Peta interaktif (Google Maps) untuk Lokasi 1 akan tampil di sini
+                  </p>
+                  <p id="wf-map-address" class="mt-1.5 text-xs text-wire-muted">
+                    Alamat akan tampil di sini
+                  </p>
+                  <span class="mt-2.5 inline-block font-mono text-[10px] text-wire-subtle">
+                    [PLACEHOLDER_MAPS: 600x450]
+                  </span>
+                </div>
+              </div>
+
+              <!-- Keterangan Alamat di Bawah Peta -->
+              <div class="p-4 sm:p-5 bg-wire-card">
+                <span id="wf-loc-caption-label" class="block font-mono text-[11px] font-bold uppercase text-wire-ink mb-1">
+                  KETERANGAN LOKASI 1
+                </span>
+                <p id="wf-loc-caption-text" class="text-sm text-wire-muted">
+                  Alamat akan tampil di sini
+                </p>
+              </div>
+            </div>
+
+            <!-- Blok Info Kontak di Bawah Peta dengan Garis Pemisah -->
+            <div class="p-5 divide-y wf-solid bg-wire-surface divide-zinc-300">
+              <div class="pb-4">
+                <p class="mb-1 font-mono text-xs font-bold tracking-wider uppercase text-wire-ink">
+                  EMAIL
+                </p>
+                <p class="text-sm text-wire-muted">
+                  Alamat email akan tampil di sini
+                </p>
+              </div>
+
+              <div class="py-4">
+                <p class="mb-1 font-mono text-xs font-bold tracking-wider uppercase text-wire-ink">
+                  TELEPON / WHATSAPP
+                </p>
+                <p class="text-sm text-wire-muted">
+                  Nomor telepon &amp; WhatsApp akan tampil di sini
+                </p>
+              </div>
+
+              <div class="pt-4">
+                <p class="mb-1 font-mono text-xs font-bold tracking-wider uppercase text-wire-ink">
+                  KETERANGAN TAMBAHAN
+                </p>
+                <p class="text-sm text-wire-muted">
+                  Informasi layanan pelanggan akan tampil di sini
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===============================================================
+               KOLOM KANAN [04]: FORMULIR KONSULTASI
+               =============================================================== -->
+          <div id="wf-form-section" class="scroll-mt-24">
+            <div class="flex items-center justify-between gap-2 mb-6">
+              <span class="font-mono text-[11px] font-bold uppercase text-wire-ink">
+                KOLOM KANAN — FORMULIR KONSULTASI
+              </span>
+              <span class="ux-callout inline-flex items-center px-2 py-0.5 bg-wire-ink text-white font-mono text-[10px] font-bold">
+                [04] FORMULIR INPUT &amp; RADIO
+              </span>
+            </div>
+
+            <form id="wf-consultation-form" novalidate class="p-5 space-y-6 wf-solid bg-wire-card sm:p-8">
+              <div class="flex flex-wrap items-center justify-between gap-2 pb-4 wf-border-b">
+                <div>
+                  <h2 class="text-lg font-bold uppercase sm:text-xl text-wire-ink">
+                    FORMULIR KONSULTASI
+                  </h2>
+                  <p class="text-xs text-wire-muted mt-0.5">
+                    Keterangan singkat pengisian formulir akan tampil di sini.
+                  </p>
+                </div>
+                <span class="font-mono text-[10px] px-2 py-1 wf-dashed bg-wire-surface text-wire-subtle">
+                  [FORM_CONTAINER]
+                </span>
+              </div>
+
+              <!-- Input Teks 1: Nama -->
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <label for="wf-nama" class="text-sm font-semibold text-wire-ink">
+                    Nama <span class="text-wire-subtle">*</span>
+                  </label>
+                  <span class="font-mono text-[10px] text-wire-subtle">[INPUT: TEXT]</span>
+                </div>
+                <input
+                  type="text"
+                  id="wf-nama"
+                  name="nama"
+                  placeholder="Input nama akan tampil di sini"
+                  class="w-full px-3.5 py-2.5 wf-solid bg-wire-surface focus:bg-wire-card focus:border-wire-ink text-sm text-wire-ink placeholder-zinc-500 focus:outline-none transition-colors"
+                />
+              </div>
+
+              <!-- Input Teks 2: Kecamatan / Wilayah -->
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <label for="wf-wilayah" class="text-sm font-semibold text-wire-ink">
+                    Kecamatan / Wilayah <span class="text-wire-subtle">*</span>
+                  </label>
+                  <span class="font-mono text-[10px] text-wire-subtle">[INPUT: TEXT]</span>
+                </div>
+                <input
+                  type="text"
+                  id="wf-wilayah"
+                  name="wilayah"
+                  placeholder="Input wilayah akan tampil di sini"
+                  class="w-full px-3.5 py-2.5 wf-solid bg-wire-surface focus:bg-wire-card focus:border-wire-ink text-sm text-wire-ink placeholder-zinc-500 focus:outline-none transition-colors"
+                />
+              </div>
+
+              <!-- Input Angka: No. WhatsApp -->
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <label for="wf-whatsapp" class="text-sm font-semibold text-wire-ink">
+                    No. WhatsApp <span class="text-wire-subtle">*</span>
+                  </label>
+                  <span class="font-mono text-[10px] text-wire-subtle">[INPUT: NUMBER]</span>
+                </div>
+                <input
+                  type="tel"
+                  inputmode="numeric"
+                  id="wf-whatsapp"
+                  name="whatsapp"
+                  placeholder="Input nomor WhatsApp akan tampil di sini"
+                  class="w-full px-3.5 py-2.5 wf-solid bg-wire-surface focus:bg-wire-card focus:border-wire-ink text-sm text-wire-ink placeholder-zinc-500 focus:outline-none transition-colors"
+                />
+              </div>
+
+              <!-- Textarea: Kebutuhan Desain Interior -->
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <label for="wf-kebutuhan" class="text-sm font-semibold text-wire-ink">
+                    Kebutuhan Desain Interior <span class="text-wire-subtle">*</span>
+                  </label>
+                  <span class="font-mono text-[10px] text-wire-subtle">[TEXTAREA]</span>
+                </div>
+                <textarea
+                  id="wf-kebutuhan"
+                  name="kebutuhan"
+                  rows="4"
+                  placeholder="Kolom deskripsi kebutuhan desain akan tampil di sini"
+                  class="w-full px-3.5 py-2.5 wf-solid bg-wire-surface focus:bg-wire-card focus:border-wire-ink text-sm text-wire-ink placeholder-zinc-500 focus:outline-none transition-colors"
+                ></textarea>
+              </div>
+
+              <!-- Grup Radio 1: Ukuran Ruangan / Lahan (Pilihan 1 - 4) -->
+              <fieldset class="pt-1">
+                <div class="flex items-center justify-between mb-2.5">
+                  <legend class="text-sm font-semibold text-wire-ink">
+                    Ukuran Ruangan / Lahan <span class="text-wire-subtle">*</span>
+                  </legend>
+                  <span class="font-mono text-[10px] text-wire-subtle">[RADIO: 2-KOLOM]</span>
+                </div>
+                <div class="wf-radio-grid grid gap-2.5">
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="ukuran_ruangan" value="Pilihan 1" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 1</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="ukuran_ruangan" value="Pilihan 2" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 2</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="ukuran_ruangan" value="Pilihan 3" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 3</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="ukuran_ruangan" value="Pilihan 4" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 4</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <!-- Grup Radio 2: Gaya Desain Interior (Pilihan 1 - 6) -->
+              <fieldset class="pt-1">
+                <div class="flex items-center justify-between mb-2.5">
+                  <legend class="text-sm font-semibold text-wire-ink">
+                    Gaya Desain Interior <span class="text-wire-subtle">*</span>
+                  </legend>
+                  <span class="font-mono text-[10px] text-wire-subtle">[RADIO: 2-KOLOM]</span>
+                </div>
+                <div class="wf-radio-grid grid gap-2.5">
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="gaya_desain" value="Pilihan 1" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 1</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="gaya_desain" value="Pilihan 2" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 2</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="gaya_desain" value="Pilihan 3" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 3</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="gaya_desain" value="Pilihan 4" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 4</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="gaya_desain" value="Pilihan 5" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 5</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="gaya_desain" value="Pilihan 6" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 6</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <!-- Grup Radio 3: Jenis Properti / Lantai (Pilihan 1 - 4) -->
+              <fieldset class="pt-1">
+                <div class="flex items-center justify-between mb-2.5">
+                  <legend class="text-sm font-semibold text-wire-ink">
+                    Jenis Properti / Lantai <span class="text-wire-subtle">*</span>
+                  </legend>
+                  <span class="font-mono text-[10px] text-wire-subtle">[RADIO: 2-KOLOM]</span>
+                </div>
+                <div class="wf-radio-grid grid gap-2.5">
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="jenis_properti" value="Pilihan 1" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 1</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="jenis_properti" value="Pilihan 2" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 2</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="jenis_properti" value="Pilihan 3" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 3</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="jenis_properti" value="Pilihan 4" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 4</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <!-- Grup Radio 4: Estimasi Budget (Pilihan 1 - 4) -->
+              <fieldset class="pt-1">
+                <div class="flex items-center justify-between mb-2.5">
+                  <legend class="text-sm font-semibold text-wire-ink">
+                    Estimasi Budget <span class="text-wire-subtle">*</span>
+                  </legend>
+                  <span class="font-mono text-[10px] text-wire-subtle">[RADIO: 2-KOLOM]</span>
+                </div>
+                <div class="wf-radio-grid grid gap-2.5">
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="estimasi_budget" value="Pilihan 1" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 1</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="estimasi_budget" value="Pilihan 2" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 2</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="estimasi_budget" value="Pilihan 3" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 3</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="estimasi_budget" value="Pilihan 4" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 4</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <!-- Grup Radio 5: Media Konsultasi (Pilihan 1 - 3) -->
+              <fieldset class="pt-1">
+                <div class="flex items-center justify-between mb-2.5">
+                  <legend class="text-sm font-semibold text-wire-ink">
+                    Media Konsultasi <span class="text-wire-subtle">*</span>
+                  </legend>
+                  <span class="font-mono text-[10px] text-wire-subtle">[RADIO: 2-KOLOM]</span>
+                </div>
+                <div class="wf-radio-grid grid gap-2.5">
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="media_konsultasi" value="Pilihan 1" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 1</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="media_konsultasi" value="Pilihan 2" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 2</span>
+                  </label>
+                  <label class="wf-radio-box flex items-center gap-2.5 px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-surface cursor-pointer text-sm">
+                    <input type="radio" name="media_konsultasi" value="Pilihan 3" class="w-4 h-4 accent-[#18181B]" />
+                    <span>Pilihan 3</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <!-- Tombol Submit Wireframe -->
+              <div class="pt-2">
+                <button type="submit" class="w-full sm:w-auto px-7 py-3.5 wf-solid-ink bg-wire-ink hover:bg-wire-dark text-white font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors">
+                  TOMBOL KIRIM KONSULTASI
+                </button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           [05] PRE-FOOTER CTA BANNER (Blok Gelap Monokrom #27272A)
+           =================================================================== -->
+      <section class="relative w-full px-4 py-10 text-white bg-wire-dark wf-border-t wf-border-b sm:px-8 sm:py-12">
+        <div class="flex items-center justify-between mb-4 pb-2 border-b border-dashed border-zinc-600 font-mono text-[10px] text-zinc-400">
+          <span>[05] PRE_FOOTER_CTA_BANNER // BG: #27272A</span>
+          <span class="ux-callout inline-flex items-center px-2 py-0.5 bg-white text-wire-ink font-bold">
+            [05] BANNER AJAKAN CTA
+          </span>
+        </div>
+
+        <div class="flex items-center justify-between gap-6 wf-prefooter-flex">
+          <div class="max-w-2xl">
+            <h2 class="text-xl sm:text-2xl lg:text-[26px] font-bold tracking-tight text-white">
+              Judul ajakan konsultasi (CTA) akan tampil di sini
+            </h2>
+            <p class="mt-1.5 text-xs sm:text-sm text-zinc-300">
+              Keterangan singkat ajakan konsultasi akan tampil di sini
+            </p>
+          </div>
+
+          <a href="#wf-form-section" class="shrink-0 inline-flex items-center justify-center px-6 py-3.5 border-[1.5px] border-white bg-white text-wire-ink hover:bg-wire-surface font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors">
+            TOMBOL CTA
+          </a>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           [06] FOOTER 4-KOLOM & BOTTOM BAR
+           =================================================================== -->
+      <footer class="relative bg-wire-card text-wire-ink">
+        <div class="px-4 pt-10 pb-8 sm:px-8">
+          <div class="flex items-center justify-between mb-6 pb-2 border-b border-dashed border-wire-dashed font-mono text-[10px] text-wire-subtle">
+            <span>[06] FOOTER_4_KOLOM // STRUCTURE</span>
+            <span class="ux-callout inline-flex items-center px-2 py-0.5 bg-wire-ink text-white font-bold">
+              [06] FOOTER &amp; COPYRIGHT
+            </span>
+          </div>
+
+          <div class="grid gap-8 wf-footer-grid">
+            <!-- Kolom 1: Kotak Placeholder Logo + Deskripsi Singkat Profil -->
+            <div class="space-y-4">
+              <div class="flex items-center gap-3 p-3 wf-dashed bg-wire-surface">
+                <svg class="w-9 h-9 shrink-0 text-wire-dashed" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                  <rect x="0.75" y="0.75" width="34.5" height="34.5" stroke="currentColor" stroke-width="1.5" />
+                  <line x1="0" y1="0" x2="36" y2="36" stroke="currentColor" stroke-width="1.2" />
+                  <line x1="36" y1="0" x2="0" y2="36" stroke="currentColor" stroke-width="1.2" />
+                </svg>
+                <span class="font-mono text-[11px] font-bold uppercase text-wire-ink">
+                  LOGO WIREFRAME
+                </span>
+              </div>
+              <p class="text-xs leading-relaxed sm:text-sm text-wire-muted">
+                Deskripsi singkat profil Sembilanpuluh Interior akan tampil di sini.
+              </p>
+            </div>
+
+            <!-- Kolom 2: LOKASI STUDIO -->
+            <div class="space-y-3">
+              <h3 class="font-mono text-xs font-bold tracking-wider uppercase text-wire-ink">
+                LOKASI STUDIO
+              </h3>
+              <p class="text-xs leading-relaxed sm:text-sm text-wire-muted">
+                Alamat studio cabang 1 akan tampil di sini.
+              </p>
+              <p class="text-xs leading-relaxed sm:text-sm text-wire-muted">
+                Alamat studio cabang 2 akan tampil di sini.
+              </p>
+            </div>
+
+            <!-- Kolom 3: KONTAK -->
+            <div class="space-y-3">
+              <h3 class="font-mono text-xs font-bold tracking-wider uppercase text-wire-ink">
+                KONTAK
+              </h3>
+              <p class="text-xs leading-relaxed sm:text-sm text-wire-muted">
+                Alamat email akan tampil di sini
+              </p>
+              <p class="text-xs leading-relaxed sm:text-sm text-wire-muted">
+                Nomor telepon akan tampil di sini
+              </p>
+            </div>
+
+            <!-- Kolom 4: SOSIAL MEDIA & AFILIASI -->
+            <div class="space-y-3">
+              <h3 class="font-mono text-xs font-bold tracking-wider uppercase text-wire-ink">
+                SOSIAL MEDIA &amp; AFILIASI
+              </h3>
+              <p class="text-xs leading-relaxed sm:text-sm text-wire-muted">
+                Tautan sosial media akan tampil di sini
+              </p>
+              <div class="relative flex items-center justify-center h-12 px-3 overflow-hidden wf-dashed bg-wire-surface">
+                <span class="font-mono text-[11px] text-wire-muted text-center">
+                  Logo afiliasi akan tampil di sini
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Baris Bawah Footer -->
+        <div class="px-4 py-4 wf-border-t bg-wire-surface sm:px-8">
+          <div class="flex items-center justify-between gap-3 font-mono text-xs wf-bottom-bar text-wire-muted">
+            <span>Tautan menu footer akan tampil di sini</span>
+            <span>Teks hak cipta (Copyright) akan tampil di sini</span>
+          </div>
+        </div>
+      </footer>
+
+      <!-- ===================================================================
+           [07] FLOATING WIDGETS (Pojok Kanan Bawah)
+           =================================================================== -->
+      <div class="sticky z-20 flex justify-end px-4 pb-4 pointer-events-none bottom-4 sm:px-6">
+        <div class="flex flex-col items-end gap-2 pointer-events-auto">
+          <span class="ux-callout inline-flex items-center px-2 py-0.5 bg-wire-ink text-white font-mono text-[10px] font-bold">
+            [07] FLOATING WIDGETS
+          </span>
+
+          <!-- Popup Wireframe Kecil WhatsApp -->
+          <div id="wf-wa-popup" class="hidden w-64 wf-solid-ink bg-wire-card p-3.5 shadow-md">
+            <div class="flex items-center justify-between pb-2 mb-2 wf-border-b">
+              <span class="font-mono text-[10px] font-bold uppercase text-wire-ink">[POPUP CHAT WA]</span>
+              <button type="button" id="wf-wa-popup-close" class="font-mono text-[10px] font-bold underline">Tutup</button>
+            </div>
+            <p class="text-xs leading-relaxed text-wire-muted">
+              Jendela chat WhatsApp akan tampil di sini
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <!-- Tombol Ke Atas (Scroll to Top) -->
+            <button type="button" id="wf-scroll-top" class="px-3 py-2.5 wf-solid bg-wire-card hover:bg-wire-ink hover:text-white font-mono text-xs font-bold transition-colors" aria-label="Gulir ke atas">
+              ↑ Ke Atas
+            </button>
+
+            <!-- Tombol Kapsul Wireframe Widget Chat WA -->
+            <button type="button" id="wf-wa-widget-btn" class="px-4 py-2.5 rounded-full wf-solid-ink bg-wire-ink text-white hover:bg-wire-dark font-mono text-xs font-bold flex items-center gap-2 transition-colors">
+              <span class="inline-block w-2 h-2 bg-white rounded-full" aria-hidden="true"></span>
+              <span>Widget Chat WA</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       MODAL WIREFRAME KONFIRMASI PENGIRIMAN FORMULIR
+       ======================================================================= -->
+  <div id="wf-confirm-modal" class="fixed inset-0 z-50 items-center justify-center hidden p-4 bg-black/50" role="dialog" aria-modal="true" aria-labelledby="wf-confirm-title">
+    <div class="w-full max-w-md p-5 space-y-4 shadow-lg bg-wire-card wf-solid-ink sm:p-6">
+      <div class="flex items-center justify-between pb-3 wf-border-b">
+        <span id="wf-confirm-title" class="font-mono text-xs font-bold uppercase text-wire-ink">
+          [MODAL KONFIRMASI WIREFRAME]
+        </span>
+        <button type="button" id="wf-confirm-close" class="px-2 py-0.5 wf-solid bg-wire-surface hover:bg-wire-ink hover:text-white font-mono text-xs font-bold">
+          [X]
+        </button>
+      </div>
+
+      <div class="p-4 text-center wf-dashed bg-wire-surface">
+        <p class="text-sm font-medium text-wire-ink">
+          Notifikasi konfirmasi pengiriman formulir akan tampil di sini.
+        </p>
+      </div>
+
+      <div class="flex justify-end">
+        <button type="button" id="wf-confirm-ok" class="px-5 py-2 font-mono text-xs font-bold text-white uppercase wf-solid-ink bg-wire-ink">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================================
+       JAVASCRIPT INTERAKTIVITAS WIREFRAME
+       ======================================================================= -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      /* 1. Pengalih Viewport Responsif (Desktop 1389px | Tablet 768px | Mobile 390px) */
+      const viewportFrame = document.getElementById('viewport-frame');
+      const frameDimBar = document.getElementById('frame-dimension-bar');
+      const currentVpLabel = document.getElementById('current-vp-label');
+      const vpButtons = document.querySelectorAll('.vp-btn');
+
+      const vpConfigs = {
+        desktop: { maxWidth: '1389px', label: 'DESKTOP (max-w: 1389px)' },
+        tablet: { maxWidth: '768px', label: 'TABLET (max-w: 768px)' },
+        mobile: { maxWidth: '390px', label: 'MOBILE (max-w: 390px)' }
+      };
+
+      vpButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const mode = btn.dataset.vp;
+          const cfg = vpConfigs[mode];
+          if (!cfg) return;
+
+          viewportFrame.setAttribute('data-viewport', mode);
+          viewportFrame.style.maxWidth = cfg.maxWidth;
+          frameDimBar.style.maxWidth = cfg.maxWidth;
+          currentVpLabel.textContent = cfg.label;
+
+          vpButtons.forEach((b) => {
+            if (b === btn) {
+              b.classList.add('bg-white', 'text-wire-ink', 'font-semibold');
+              b.classList.remove('text-zinc-300', 'font-medium');
+            } else {
+              b.classList.remove('bg-white', 'text-wire-ink', 'font-semibold');
+              b.classList.add('text-zinc-300', 'font-medium');
+            }
+          });
+        });
+      });
+
+      /* 2. Tombol Toggle Grid 12-Kolom */
+      const toggleGridBtn = document.getElementById('toggle-grid-btn');
+      const gridOverlay = document.getElementById('grid-overlay-container');
+      let gridActive = false;
+
+      toggleGridBtn.addEventListener('click', () => {
+        gridActive = !gridActive;
+        toggleGridBtn.setAttribute('aria-pressed', String(gridActive));
+        if (gridActive) {
+          gridOverlay.classList.remove('hidden');
+          toggleGridBtn.classList.add('bg-white', 'text-wire-ink', 'border-white');
+          toggleGridBtn.classList.remove('bg-wire-dark', 'text-zinc-200', 'border-zinc-500');
+        } else {
+          gridOverlay.classList.add('hidden');
+          toggleGridBtn.classList.remove('bg-white', 'text-wire-ink', 'border-white');
+          toggleGridBtn.classList.add('bg-wire-dark', 'text-zinc-200', 'border-zinc-500');
+        }
+      });
+
+      /* 3. Tombol Toggle Anotasi UX [01]–[07] */
+      const toggleUxBtn = document.getElementById('toggle-ux-btn');
+      const uxNotesDrawer = document.getElementById('ux-notes-drawer');
+      const collapseUxNotesBtn = document.getElementById('collapse-ux-notes');
+      const uxNotesGrid = document.getElementById('ux-notes-grid');
+      let uxActive = true;
+      let summaryExpanded = true;
+
+      toggleUxBtn.addEventListener('click', () => {
+        uxActive = !uxActive;
+        toggleUxBtn.setAttribute('aria-pressed', String(uxActive));
+        if (uxActive) {
+          document.body.classList.remove('hide-annotations');
+          uxNotesDrawer.classList.remove('hidden');
+          toggleUxBtn.classList.add('bg-white', 'text-wire-ink', 'border-white');
+          toggleUxBtn.classList.remove('bg-wire-dark', 'text-zinc-200', 'border-zinc-500');
+        } else {
+          document.body.classList.add('hide-annotations');
+          uxNotesDrawer.classList.add('hidden');
+          toggleUxBtn.classList.remove('bg-white', 'text-wire-ink', 'border-white');
+          toggleUxBtn.classList.add('bg-wire-dark', 'text-zinc-200', 'border-zinc-500');
+        }
+      });
+
+      collapseUxNotesBtn.addEventListener('click', () => {
+        summaryExpanded = !summaryExpanded;
+        if (summaryExpanded) {
+          uxNotesGrid.classList.remove('hidden');
+          collapseUxNotesBtn.textContent = 'Tutup Ringkasan';
+        } else {
+          uxNotesGrid.classList.add('hidden');
+          collapseUxNotesBtn.textContent = 'Buka Ringkasan';
+        }
+      });
+
+      /* 4. Drawer Navigasi Mobile */
+      const mobileDrawer = document.getElementById('wf-mobile-drawer');
+      const drawerBackdrop = document.getElementById('wf-drawer-backdrop');
+      const openDrawerBtn = document.getElementById('wf-mobile-drawer-open');
+      const closeDrawerBtn = document.getElementById('wf-mobile-drawer-close');
+
+      function openDrawer() {
+        mobileDrawer.classList.remove('translate-x-full');
+        drawerBackdrop.classList.remove('hidden');
+      }
+
+      function closeDrawer() {
+        mobileDrawer.classList.add('translate-x-full');
+        drawerBackdrop.classList.add('hidden');
+      }
+
+      openDrawerBtn.addEventListener('click', openDrawer);
+      closeDrawerBtn.addEventListener('click', closeDrawer);
+      drawerBackdrop.addEventListener('click', closeDrawer);
+
+      document.querySelectorAll('.wf-drawer-item').forEach((item) => {
+        item.addEventListener('click', closeDrawer);
+      });
+
+      /* 5. Interaksi Tautan Menu Header */
+      const navFeedback = document.getElementById('wf-nav-feedback');
+      const navFeedbackText = document.getElementById('wf-nav-feedback-text');
+      const navFeedbackClose = document.getElementById('wf-nav-feedback-close');
+
+      document.querySelectorAll('.wf-nav-link').forEach((link) => {
+        link.addEventListener('click', () => {
+          navFeedbackText.textContent = `Halaman untuk ${link.dataset.menuName} akan tampil di sini.`;
+          navFeedback.classList.remove('hidden');
+        });
+      });
+
+      navFeedbackClose.addEventListener('click', () => {
+        navFeedback.classList.add('hidden');
+      });
+
+      /* 6. Tab Interaktif Lokasi 1 / Lokasi 2 / Lokasi 3 */
+      const locTabs = document.querySelectorAll('.wf-loc-tab');
+      const mapTitle = document.getElementById('wf-map-title');
+      const mapAddress = document.getElementById('wf-map-address');
+      const locCaptionLabel = document.getElementById('wf-loc-caption-label');
+      const locCaptionText = document.getElementById('wf-loc-caption-text');
+
+      locTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const locNum = tab.dataset.loc;
+
+          locTabs.forEach((t) => {
+            const isSelected = t === tab;
+            t.setAttribute('aria-selected', String(isSelected));
+            if (isSelected) {
+              t.classList.add('bg-wire-ink', 'text-white', 'font-bold');
+              t.classList.remove('text-wire-ink', 'hover:bg-zinc-200', 'font-semibold');
+            } else {
+              t.classList.remove('bg-wire-ink', 'text-white', 'font-bold');
+              t.classList.add('text-wire-ink', 'hover:bg-zinc-200', 'font-semibold');
+            }
+          });
+
+          mapTitle.textContent = `Peta interaktif (Google Maps) untuk Lokasi ${locNum} akan tampil di sini`;
+          mapAddress.textContent = 'Alamat akan tampil di sini';
+          locCaptionLabel.textContent = `KETERANGAN LOKASI ${locNum}`;
+          locCaptionText.textContent = 'Alamat akan tampil di sini';
+        });
+      });
+
+      /* 7. Highlight Pilihan Radio & Modal Konfirmasi Formulir */
+      document.querySelectorAll('.wf-radio-box input[type="radio"]').forEach((radio) => {
+        radio.addEventListener('change', () => {
+          document.querySelectorAll(`input[name="${radio.name}"]`).forEach((r) => {
+            const box = r.closest('.wf-radio-box');
+            if (r.checked) {
+              box.classList.add('bg-wire-ink', 'text-white', 'font-semibold');
+              box.classList.remove('bg-wire-card', 'hover:bg-wire-surface');
+            } else {
+              box.classList.remove('bg-wire-ink', 'text-white', 'font-semibold');
+              box.classList.add('bg-wire-card', 'hover:bg-wire-surface');
+            }
+          });
+        });
+      });
+
+      const form = document.getElementById('wf-consultation-form');
+      const confirmModal = document.getElementById('wf-confirm-modal');
+      const confirmClose = document.getElementById('wf-confirm-close');
+      const confirmOk = document.getElementById('wf-confirm-ok');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        confirmModal.classList.remove('hidden');
+        confirmModal.classList.add('flex');
+      });
+
+      function closeConfirmModal() {
+        confirmModal.classList.add('hidden');
+        confirmModal.classList.remove('flex');
+      }
+
+      confirmClose.addEventListener('click', closeConfirmModal);
+      confirmOk.addEventListener('click', closeConfirmModal);
+      confirmModal.addEventListener('click', (e) => {
+        if (e.target === confirmModal) closeConfirmModal();
+      });
+
+      /* 8. Floating Widgets (Popup Widget Chat WA & Tombol Ke Atas) */
+      const waWidgetBtn = document.getElementById('wf-wa-widget-btn');
+      const waPopup = document.getElementById('wf-wa-popup');
+      const waPopupClose = document.getElementById('wf-wa-popup-close');
+      const scrollTopBtn = document.getElementById('wf-scroll-top');
+
+      waWidgetBtn.addEventListener('click', () => {
+        waPopup.classList.toggle('hidden');
+      });
+
+      waPopupClose.addEventListener('click', () => {
+        waPopup.classList.add('hidden');
+      });
+
+      scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
